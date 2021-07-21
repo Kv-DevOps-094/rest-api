@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 from models import *
-# from seeder import DatabaseSeeder
+from seeder import DatabaseSeeder
 
 DATABASE = "issuedb"
 USER = "postgres"
