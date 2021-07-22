@@ -1,0 +1,87 @@
+GET - /issues/by-label/<label> - Get issues by label
+http://127.0.0.1:5000/issues/by-label/Bug%20report
+[
+  {
+    "Action": "opened",
+    "Issue": "Third issue title",
+    "IssueHtmlUrl": "https://github.com/Mary1509/Practice3/issues/3",
+    "IssueId": 944298295,
+    "ModifiedDate": "Wed, 14 Jul 2021 09:03:03 GMT",
+    "State": "open",
+    "UserAvatarUrl": "https://avatars.githubusercontent.com/u/54399719?v=4",
+    "UserHtmlUrl": "https://github.com/Mary1509",
+    "UserId": "Mary1509"
+  },
+
+]
+
+GET - /issues/ - Get all issues
+http://127.0.0.1:5000/issues/
+[
+  {
+    "Body": "Comment here",
+    "HtmlUrl": "https://github.com/Mary1509/Practice3/issues/3",
+    "IssueId": 944298295,
+    "Number": 3,
+    "Title": "Third issue title"
+  },
+]
+
+GET - /issues/by-id/<int:id> - Get issues by id
+http://127.0.0.1:5000/issues/by-id/944298295
+[
+  {
+    "Action": "opened",
+    "Issue": "Third issue title",
+    "IssueHtmlUrl": "https://github.com/Mary1509/Practice3/issues/3",
+    "IssueId": 944298295,
+    "ModifiedDate": "Wed, 14 Jul 2021 09:03:03 GMT",
+    "State": "open",
+    "UserAvatarUrl": "https://avatars.githubusercontent.com/u/54399719?v=4",
+    "UserHtmlUrl": "https://github.com/Mary1509",
+    "UserId": "Mary1509"
+  },
+]
+
+GET - /labels/ - Get all labels
+http://127.0.0.1:5000/labels/
+[
+  {
+    "LabelId": 1,
+    "Title": "User story"
+  },
+]
+
+
+GET - /states/ - Get all states
+http://127.0.0.1:5000/states/
+[
+  {
+    "StateId": 1,
+    "Title": "open"
+  },
+]
+
+
+GET - /actions/ - Get all actions
+http://127.0.0.1:5000/actions/
+[
+  {
+    "ActionId": 1,
+    "Title": "opened"
+  },
+]
+
+
+GET - /users/ - Get all users
+http://127.0.0.1:5000/users/
+[
+  {
+    "AvatarUrl": "https://avatars.githubusercontent.com/u/54399719?v=4",
+    "HtmlUrl": "https://github.com/Mary1509",
+    "UserId": "Mary1509"
+  }
+]
+
+
+

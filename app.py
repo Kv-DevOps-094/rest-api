@@ -17,6 +17,11 @@ def getIssues():
     return getIssuesQuery()
 
 
+@app.route("/issues/by-id/<int:id>", methods=['GET'])
+def getIssueById(id=None):
+    return getIssuesByIdQuery(id)
+
+
 @app.route("/labels/", methods=['GET'])
 def getLabels():
     return getLabelsQuery()
