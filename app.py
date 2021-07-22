@@ -1,43 +1,40 @@
-from flask import Flask, jsonify
-from sqlalchemy.orm import sessionmaker
-
-from db import db_url, engine
-from models import *
+from flask import Flask
+from db import db_url
+from querys import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
-@app.route("/", methods=['GET'])
-def data():
-    session = sessionmaker()
-    session.configure(bind=engine)
-    session = session()
+@app.route("/issues/by-label/<label>", methods=['GET'])
+def getIssuesByLabel(label):
+    return getIssuesByLabelQuery(label)
 
-    query = session.query(Issue.IssueId, State.Title, Issue.Title, Issue.HtmlUrl, User.UserId, User.HtmlUrl,
-                          User.AvatarUrl, IssueAction.ModifiedDate, Action.Title). \
-        join(IssueLabel). \
-        join(Label). \
-        join(IssueAction). \
-        join(Action). \
-        join(User). \
-        join(IssueState). \
-        join(State).all()
 
-    return jsonify([
-        {
-            'IssueId': item.IssueId,
-            'StateTitle': item.Title,
-            'IssueTitle': [],
-            'IssueHtmlUrl': [],
-            'UserId': item.UserId,
-            'UserHtmlUrl': item.HtmlUrl,
-            'UserAvatarUrl': item.AvatarUrl,
-            'IssueActionModifiedDate': item.ModifiedDate,
-            'ActionTitle': [],
-        } for item in query
-    ])
+@app.route("/issues/", methods=['GET'])
+def getIssues():
+    return getIssuesQuery()
+
+
+@app.route("/labels/", methods=['GET'])
+def getLabels():
+    return getLabelsQuery()
+
+
+@app.route("/states/", methods=['GET'])
+def getStates():
+    return getStatesQuery()
+
+
+@app.route("/actions/", methods=['GET'])
+def getActions():
+    return getActionsQuery()
+
+
+@app.route("/users/", methods=['GET'])
+def getUsers():
+    return getUsersQuery()
 
 
 if __name__ == '__main__':

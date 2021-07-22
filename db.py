@@ -26,7 +26,7 @@ Session.configure(bind=engine)
 session = Session()
 
 # seeder = DatabaseSeeder()
-
+#
 # with Session() as session:
 #     session.add_all(seeder.users)
 #     session.add_all(seeder.issues)
