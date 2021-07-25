@@ -14,13 +14,18 @@ class User(Base):
     HtmlUrl = Column(String, unique=True)
     AvatarUrl = Column(String, unique=True)
 
-    # def __repr__(self):
-    #     return f"UserId: {self.UserId}, HtmlUrl: {self.HtmlUrl}, AvatarUrl: {self.AvatarUrl}"
-    def to_json(self):
-        dict = self.__dict__
-        if "_sa_instance_state" in dict:
-            del dict["_sa_instance_state"]
-        return dict
+    def __init__(self, UserId, HtmlUrl, AvatarUrl):
+        self.UserId = UserId
+        self.HtmlUrl = HtmlUrl
+        self.AvatarUrl = AvatarUrl
+
+    def __repr__(self):
+        return f"UserId: {self.UserId}, HtmlUrl: {self.HtmlUrl}, AvatarUrl: {self.AvatarUrl}"
+    # def to_json(self):
+    #     dict = self.__dict__
+    #     if "_sa_instance_state" in dict:
+    #         del dict["_sa_instance_state"]
+    #     return dict
 
 
 @dataclass
@@ -32,14 +37,20 @@ class Issue(Base):
     Title = Column(String)
     Body = Column(String)
 
-    # def __repr__(self):
-    #     return f"IssueId: {self.IssueId}, HtmlUrl: {self.HtmlUrl}, Number: {self.Number}, Title: {self.Title}, Body: {self.Body}"
-    def to_json(self):
-        dict = self.__dict__
-        if "_sa_instance_state" in dict:
-            del dict["_sa_instance_state"]
-        return dict
+    def __init__(self, IssueId, HtmlUrl, Number, Title, Body):
+        self.IssueId = IssueId
+        self.HtmlUrl = HtmlUrl
+        self.Number = Number
+        self.Title = Title
+        self.Body = Body
 
+    def __repr__(self):
+        return f"IssueId: {self.IssueId}, HtmlUrl: {self.HtmlUrl}, Number: {self.Number}, Title: {self.Title}, Body: {self.Body}"
+    # def to_json(self):
+    #     dict = self.__dict__
+    #     if "_sa_instance_state" in dict:
+    #         del dict["_sa_instance_state"]
+    #     return dict
 
 
 @dataclass
@@ -48,13 +59,16 @@ class Action(Base):
     ActionId = Column(Integer, primary_key=True)
     Title = Column(String, unique=True)
 
-    # def __repr__(self):
-    #     return f"ActionId: {self.ActionId}, Title: {self.Title}"
-    def to_json(self):
-        dict = self.__dict__
-        if "_sa_instance_state" in dict:
-            del dict["_sa_instance_state"]
-        return dict
+    def __init__(self, Title):
+        self.Title = Title
+
+    def __repr__(self):
+        return f"ActionId: {self.ActionId}, Title: {self.Title}"
+    # def to_json(self):
+    #     dict = self.__dict__
+    #     if "_sa_instance_state" in dict:
+    #         del dict["_sa_instance_state"]
+    #     return dict
 
 
 @dataclass
@@ -63,13 +77,16 @@ class Label(Base):
     LabelId = Column(Integer, primary_key=True)
     Title = Column(String, unique=True)
 
-    # def __repr__(self):
-    #     return f"LabelId: {self.LabelId}, Title: {self.Title}"
-    def to_json(self):
-        dict = self.__dict__
-        if "_sa_instance_state" in dict:
-            del dict["_sa_instance_state"]
-        return dict
+    def __init__(self, Title):
+        self.Title = Title
+
+    def __repr__(self):
+        return f"LabelId: {self.LabelId}, Title: {self.Title}"
+    # def to_json(self):
+    #     dict = self.__dict__
+    #     if "_sa_instance_state" in dict:
+    #         del dict["_sa_instance_state"]
+    #     return dict
 
 
 @dataclass
@@ -78,13 +95,16 @@ class State(Base):
     StateId = Column(Integer, primary_key=True)
     Title = Column(String, unique=True)
 
-    # def __repr__(self):
-    #     return f"StateId: {self.StateId}, Title: {self.Title}"
-    def to_json(self):
-        dict = self.__dict__
-        if "_sa_instance_state" in dict:
-            del dict["_sa_instance_state"]
-        return dict
+    def __init__(self, Title):
+        self.Title = Title
+
+    def __repr__(self):
+        return f"StateId: {self.StateId}, Title: {self.Title}"
+    # def to_json(self):
+    #     dict = self.__dict__
+    #     if "_sa_instance_state" in dict:
+    #         del dict["_sa_instance_state"]
+    #     return dict
 
 
 @dataclass

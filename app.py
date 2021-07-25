@@ -12,6 +12,7 @@ def getIssuesByLabel(label):
     return getIssuesByLabelQuery(label)
 
 
+@app.route("/", methods=['GET'])
 @app.route("/issues/", methods=['GET'])
 def getIssues():
     return getIssuesQuery()
