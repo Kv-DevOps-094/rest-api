@@ -1,9 +1,7 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
+
 from models import *
-
-
 
 DATABASE = "issuedb"
 USER = "postgres"
@@ -20,6 +18,7 @@ if not database_exists(db_url):
 # Create tables
 engine = create_engine(db_url)
 Base.metadata.create_all(bind=engine)
+
 
 # Create session
 # Session = sessionmaker()
@@ -53,13 +52,12 @@ Base.metadata.create_all(bind=engine)
 #
 
 
-
 # with Session() as session:
 #     # session.commit()
 #     session.add(user)
 #     session.commit()
-    # session.add(issue)
-    # session.commit()
+# session.add(issue)
+# session.commit()
 
 
 # print(issue)
@@ -70,20 +68,20 @@ Base.metadata.create_all(bind=engine)
 # seeder = DatabaseSeeder()
 
 # with Session() as session:
-    # session.add(user)
-    # session.add(issueState)
-    #     session.add(issue)
-    # session.add_all(seeder.users)
-    #
-    # session.add_all(seeder.issues)
-    # session.add_all(seeder.issueActions)
-    # session.add_all(seeder.actions)
-    #
-    # session.add_all(seeder.labels)
-    #
-    # session.add_all(seeder.states)
+# session.add(user)
+# session.add(issueState)
+#     session.add(issue)
+# session.add_all(seeder.users)
+#
+# session.add_all(seeder.issues)
+# session.add_all(seeder.issueActions)
+# session.add_all(seeder.actions)
+#
+# session.add_all(seeder.labels)
+#
+# session.add_all(seeder.states)
 
-    # session.add_all(seeder.issueLabels)
-    # session.add_all(seeder.issueStates)
+# session.add_all(seeder.issueLabels)
+# session.add_all(seeder.issueStates)
 
-    # session.commit()
+# session.commit()

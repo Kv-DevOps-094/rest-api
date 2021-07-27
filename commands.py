@@ -1,6 +1,5 @@
 import json
 from types import SimpleNamespace
-
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import sessionmaker
 from db import engine
@@ -73,8 +72,10 @@ def addUser(dataJson):
     query = session.query(User).filter(User.UserId == user.UserId)
     try:
         user = query.one()
+        print(f"Function addUser() - user exists - {user}")
     except NoResultFound:
         session.add(user)
+        print(f"Function addUser() - user added - {user}")
     finally:
         session.commit()
         return user
@@ -90,10 +91,10 @@ def addAction(dataJson):
     query = session.query(Action).filter(Action.Title == action.Title)
     try:
         action = query.one()
-        print(f"{action} exists")
+        print(f"Function addAction() - action exists - {action}")
     except NoResultFound:
         session.add(action)
-        print(f"{action} added")
+        print(f"Function addAction() - action added - {action}")
     finally:
         session.commit()
         return action
@@ -110,8 +111,10 @@ def addState(dataJson):
     query = session.query(State).filter(State.Title == state.Title)
     try:
         state = query.one()
+        print(f"Function addState() - state exists - {state}")
     except NoResultFound:
         session.add(state)
+        print(f"Function addState() - state added - {state}")
     finally:
         session.commit()
         return state
@@ -133,10 +136,12 @@ def addLabel(dataJson):
         try:
             label = query.one()
             ls.append(label)
+            print(f"Function addLabel() - label exist - {label}")
         except NoResultFound:
             session.add(label)
             session.commit()
             ls.append(label)
+            print(f"Function addLabel() - label add - {label}")
     return ls
 
 
@@ -155,8 +160,10 @@ def addIssue(dataJson):
     query = session.query(Issue).filter(Issue.IssueId == issue.IssueId)
     try:
         issue = query.one()
+        print(f"Function addIssue() - issue exist - {issue}")
     except NoResultFound:
         session.add(issue)
+        print(f"Function addIssue() - issue added - {issue}")
     finally:
         session.commit()
         return issue
@@ -211,7 +218,6 @@ def addIssueActionState(dataJson):
     query = session.query(Issue).filter(Issue.IssueId == data.issue.id)
     try:
         issue = query.one()
-
         issueAction = IssueAction(UserId=data.issue.user.login,
                                   ModifiedDate=data.issue.data)
         issueAction.Action = addAction(dataJson)
@@ -228,6 +234,10 @@ def addIssueActionState(dataJson):
     return issue
 
 
-# addUser(opened)
-# addIssueActionLabelState(opened)
+addUser(opened)
+# Add data from new issue
+addIssueActionLabelState(opened)
+
+addUser(other)
+# Add changed status for issue
 addIssueActionState(other)

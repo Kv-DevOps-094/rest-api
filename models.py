@@ -1,8 +1,6 @@
-from dataclasses import dataclass
-
 from sqlalchemy import Column, String, Integer, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -25,18 +23,18 @@ class User(Base):
 
 class IssueAction(Base):
     __tablename__ = 'IssueActions'
-    # IssueActionId = Column(Integer, primary_key=True)
-    IssueId = Column(ForeignKey('Issues.IssueId'), primary_key=True)
-    ActionId = Column(ForeignKey('Actions.ActionId'), primary_key=True)
+    IssueActionId = Column(Integer, primary_key=True)
+    IssueId = Column(ForeignKey('Issues.IssueId'))
+    ActionId = Column(ForeignKey('Actions.ActionId'))
     UserId = Column(String, ForeignKey('Users.UserId'))
     ModifiedDate = Column(DateTime)
-    # Users = relationship('User', backref='issueActions')
     Action = relationship("Action")
-    # Action = relationship("Action", back_populates="Issues")
-    # Issue = relationship("Issue", back_populates="Actions")
 
     def __repr__(self):
-        return f"IssueId: {self.IssueId}, ActionId: {self.ActionId}, UserId: {self.UserId}, ModifiedDate: {self.ModifiedDate}"
+        return f"IssueId: {self.IssueId}, " \
+               f"ActionId: {self.ActionId}, " \
+               f"UserId: {self.UserId}, " \
+               f"ModifiedDate: {self.ModifiedDate}"
 
 
 class Issue(Base):
@@ -50,29 +48,20 @@ class Issue(Base):
     States = relationship("IssueState")
     Labels = relationship("IssueLabel")
 
-    # Actions = relationship("IssueAction", back_populates="Issue")
-    # States = relationship("IssueState", back_populates="Issue")
-    # Labels = relationship("IssueLabel", back_populates="Issue")
-
-    # def __init__(self, IssueId, HtmlUrl, Number, Title, Body):
-    #     self.IssueId = IssueId
-    #     self.HtmlUrl = HtmlUrl
-    #     self.Number = Number
-    #     self.Title = Title
-    #     self.Body = Body
-
     def __repr__(self):
-        return f"IssueId: {self.IssueId}, HtmlUrl: {self.HtmlUrl}, Number: {self.Number}, Title: {self.Title}, Body: {self.Body}"
+        return f"IssueId: {self.IssueId}, " \
+               f"HtmlUrl: {self.HtmlUrl}, " \
+               f"Number: {self.Number}, " \
+               f"Title: {self.Title}, " \
+               f"Body: {self.Body}"
 
 
 class Action(Base):
     __tablename__ = 'Actions'
     ActionId = Column(Integer, primary_key=True)
     Title = Column(String, unique=True)
-    # Issues = relationship("IssueAction", back_populates="Action")
 
     def __init__(self, Title):
-        # self.ActionId = ActionId
         self.Title = Title
 
     def __repr__(self):
@@ -83,10 +72,8 @@ class Label(Base):
     __tablename__ = 'Labels'
     LabelId = Column(Integer, primary_key=True)
     Title = Column(String, unique=True)
-    # Issues = relationship("IssueLabel", back_populates="Label")
 
     def __init__(self, Title):
-        # self.LabelId = LabelId
         self.Title = Title
 
     def __repr__(self):
@@ -97,10 +84,8 @@ class State(Base):
     __tablename__ = 'States'
     StateId = Column(Integer, primary_key=True)
     Title = Column(String, unique=True)
-    # Issues = relationship("IssueState", back_populates="State")
 
     def __init__(self, Title):
-        # self.StateId = StateId
         self.Title = Title
 
     def __repr__(self):
@@ -109,11 +94,10 @@ class State(Base):
 
 class IssueLabel(Base):
     __tablename__ = 'IssueLabels'
-    IssueId = Column(ForeignKey('Issues.IssueId'), primary_key=True)
-    LabelId = Column(ForeignKey('Labels.LabelId'), primary_key=True)
+    IssueLabelId = Column(Integer, primary_key=True)
+    IssueId = Column(ForeignKey('Issues.IssueId'))
+    LabelId = Column(ForeignKey('Labels.LabelId'))
     Label = relationship("Label")
-    # Label = relationship("Label", back_populates="Issues")
-    # Issue = relationship("Issue", back_populates="Labels")
 
     def __repr__(self):
         return f"IssueId: {self.IssueId}, LabelId: {self.LabelId}"
@@ -121,13 +105,11 @@ class IssueLabel(Base):
 
 class IssueState(Base):
     __tablename__ = 'IssueStates'
-    IssueId = Column(ForeignKey('Issues.IssueId'), primary_key=True)
-    StateId = Column(ForeignKey('States.StateId'), primary_key=True)
+    IssueStateId = Column(Integer, primary_key=True)
+    IssueId = Column(ForeignKey('Issues.IssueId'))
+    StateId = Column(ForeignKey('States.StateId'))
     ModifiedDate = Column(DateTime)
     State = relationship("State")
-    #
-    # State = relationship("State", back_populates="Issues")
-    # Issue = relationship("Issue", back_populates="States")
 
     def __repr__(self):
         return f"IssueId: {self.IssueId}, StateId: {self.StateId}, ModifiedDate: {self.ModifiedDate}"
