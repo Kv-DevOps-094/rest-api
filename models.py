@@ -25,6 +25,7 @@ class User(Base):
 
 class IssueAction(Base):
     __tablename__ = 'IssueActions'
+    # IssueActionId = Column(Integer, primary_key=True)
     IssueId = Column(ForeignKey('Issues.IssueId'), primary_key=True)
     ActionId = Column(ForeignKey('Actions.ActionId'), primary_key=True)
     UserId = Column(String, ForeignKey('Users.UserId'))

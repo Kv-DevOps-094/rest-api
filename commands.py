@@ -46,7 +46,7 @@ other = '''{
     "action": "labeled",
     "issue": {
         "id": 947957902,
-        "state": "open",
+        "state": "closed",
         "user": {
             "login": "Mary1509",
             "html_url": "https://github.com/Mary1509",
@@ -55,6 +55,7 @@ other = '''{
         "data": "2021-07-19T19:26:36Z"
     }
 }'''
+
 
 def parseJson(dataJson):
     return json.loads(dataJson, object_hook=lambda d: SimpleNamespace(**d))
@@ -210,6 +211,7 @@ def addIssueActionState(dataJson):
     query = session.query(Issue).filter(Issue.IssueId == data.issue.id)
     try:
         issue = query.one()
+
         issueAction = IssueAction(UserId=data.issue.user.login,
                                   ModifiedDate=data.issue.data)
         issueAction.Action = addAction(dataJson)
