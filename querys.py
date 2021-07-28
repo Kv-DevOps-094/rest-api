@@ -152,17 +152,3 @@ def getIssuesQuery():
             'Title': item.Title,
             'Body': item.Body,
         } for item in query])
-
-# def getIssueByIdQuery():
-#     session = sessionmaker()
-#     session.configure(bind=engine)
-#     session = session()
-#     query = session.query(Issue).all()
-#     return jsonify([
-#         {
-#             'IssueId': item.IssueId,
-#             'HtmlUrl': item.HtmlUrl,
-#             'Number': item.Number,
-#             'Title': item.Title,
-#             'Body': item.Body,
-#         } for item in query])
