@@ -1,3 +1,4 @@
+import json
 import os
 
 import pika
@@ -21,9 +22,12 @@ def main():
     parameters.virtual_host
     parameters.credentials = credentials
 
-    def callback(channel, method, properties, body):
-        print(body)
-        print()
+    def callback(ch, method, properties, body):
+        newIssues = json.load(body.decode())
+        print(newIssues)
+        print(f"Count Issues: {len(newIssues)}")
+        for item in newIssues:
+            print(f"id: {item['issue.is']}")
 
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
