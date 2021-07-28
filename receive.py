@@ -22,7 +22,6 @@ def main():
     parameters.credentials = credentials
 
     def callback(channel, method, properties, body):
-        print(method.delivering_tag)
         print(body)
         print()
 
