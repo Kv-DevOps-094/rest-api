@@ -1,13 +1,11 @@
 import json
-from time import sleep
 from types import SimpleNamespace
 from sqlalchemy.exc import NoResultFound
-from sqlalchemy.orm import sessionmaker
-from db import engine
+from db import db_session
 from models import *
 
 opened = '''{
-    "action": "opened1",
+    "action": "opened",
     "issue": {
         "html_url": "https://github.com/Mary1509/Practice3/issues/8",
         "id": 947957902,
@@ -62,69 +60,68 @@ def parseJson(dataJson):
 
 
 def addUser(dataJson):
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    session = Session()
-
     data = parseJson(dataJson)
     user = User(UserId=data.issue.user.login,
                 HtmlUrl=data.issue.user.html_url,
                 AvatarUrl=data.issue.user.avatar_url)
+    session = db_session()
     query = session.query(User).filter(User.UserId == user.UserId)
     try:
         user = query.one()
-        print(f"Function addUser() - user exists - {user}")
+        print(f"Function addUser() - user exists")
     except NoResultFound:
         session.add(user)
-        print(f"Function addUser() - user added - {user}")
+        print(f"Function addUser() - user added")
     finally:
         session.commit()
+        print(f"{user}")
         return user
 
 
 def addAction(dataJson):
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    session = Session()
-
     data = parseJson(dataJson)
     action = Action(Title=data.action)
+    session = db_session()
+    session.expire_on_commit = False
     query = session.query(Action).filter(Action.Title == action.Title)
     try:
         action = query.one()
-        print(f"Function addAction() - action exists - {action}")
+        print(f"Function addAction() - action exist")
     except NoResultFound:
         session.add(action)
-        print(f"Function addAction() - action added - {action}")
+        print(f"Function addAction() - action added")
     finally:
         session.commit()
+        session.close()
+        print(f"{action}")
         return action
 
 
 def addState(dataJson):
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    session = Session()
-
     data = parseJson(dataJson)
+
     state = State(Title=data.issue.state)
 
+    session = db_session()
+    session.expire_on_commit = False
     query = session.query(State).filter(State.Title == state.Title)
+
     try:
         state = query.one()
-        print(f"Function addState() - state exists - {state}")
+        print(f"Function addState() - state exist")
     except NoResultFound:
         session.add(state)
-        print(f"Function addState() - state added - {state}")
+        print(f"Function addState() - state added")
     finally:
         session.commit()
+        session.close()
+        print(f"{state}")
         return state
 
 
 def addLabel(dataJson):
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    session = Session()
+    session = db_session()
+    session.expire_on_commit = False
 
     data = parseJson(dataJson)
     labels = []
@@ -137,20 +134,18 @@ def addLabel(dataJson):
         try:
             label = query.one()
             ls.append(label)
-            print(f"Function addLabel() - label exist - {label}")
+            print(f"Function addLabel() - label exist")
         except NoResultFound:
             session.add(label)
             session.commit()
             ls.append(label)
-            print(f"Function addLabel() - label add - {label}")
+            print(f"{label}")
+    session.commit()
+    session.close()
     return ls
 
 
 def addIssue(dataJson):
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    session = Session()
-
     data = parseJson(dataJson)
     issue = Issue(IssueId=data.issue.id,
                   HtmlUrl=data.issue.html_url,
@@ -158,36 +153,35 @@ def addIssue(dataJson):
                   Title=data.issue.title,
                   Body=data.issue.body)
 
+    session = db_session()
     query = session.query(Issue).filter(Issue.IssueId == issue.IssueId)
     try:
         issue = query.one()
-        print(f"Function addIssue() - issue exist - {issue}")
+        print(f"Function addIssue() - issue exist")
     except NoResultFound:
         session.add(issue)
-        print(f"Function addIssue() - issue added - {issue}")
+        print(f"Function addIssue() - issue added")
     finally:
         session.commit()
-        return issue
+        print(f"{issue}")
+    return issue
 
 
 def addIssueActionLabelState(dataJson):
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    session = Session()
-
     data = parseJson(dataJson)
-
     issue = Issue(IssueId=data.issue.id,
                   HtmlUrl=data.issue.html_url,
                   Number=data.issue.number,
                   Title=data.issue.title,
                   Body=data.issue.body)
 
+    session = db_session()
     query = session.query(Issue).filter(Issue.IssueId == issue.IssueId)
+
     try:
         issue = query.one()
+        print(f"Function addIssueActionLabelState() - issue exist")
     except NoResultFound:
-
         issueAction = IssueAction(UserId=data.issue.user.login,
                                   ModifiedDate=data.issue.data)
         issueAction.Action = addAction(dataJson)
@@ -196,8 +190,9 @@ def addIssueActionLabelState(dataJson):
         issueState = IssueState(ModifiedDate=data.issue.data)
         issueState.State = addState(dataJson)
         issue.States.append(issueState)
-
-        labels = addLabel(dataJson)
+        labels = []
+        for label in addLabel(dataJson):
+            labels.append(label)
 
         for label in labels:
             issueLabel = IssueLabel()
@@ -205,19 +200,18 @@ def addIssueActionLabelState(dataJson):
             issueLabel.LabelId = label.LabelId
             session.add(issueLabel)
         session.add(issue)
+        print(f"Function addIssueActionLabelState() - issue added")
     finally:
         session.commit()
+        print(f"{issue}")
     return issue
 
 
 def addIssueActionState(dataJson):
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    session = Session()
-
     data = parseJson(dataJson)
-
+    session = db_session()
     query = session.query(Issue).filter(Issue.IssueId == data.issue.id)
+    issue = None
     try:
         issue = query.one()
         issueAction = IssueAction(UserId=data.issue.user.login,
@@ -236,10 +230,11 @@ def addIssueActionState(dataJson):
     return issue
 
 
-# addUser(opened)
-# # Add data from new issue
-# addIssueActionLabelState(opened)
+# addLabel(opened)
+addUser(opened)
+# Add data from new issue
+addIssueActionLabelState(opened)
 
-# addUser(other)
-# # Add changed status for issue
-# addIssueActionState(other)
+addUser(other)
+# Add changed status for issue
+addIssueActionState(other)

@@ -1,17 +1,13 @@
 from flask import jsonify
-from sqlalchemy import func
-from sqlalchemy.orm import sessionmaker
-
-from db import engine
+from sqlalchemy import func, select
+from db import db_session
 from models import *
 
 
 def getIssuesByLabelQuery(label: str):
     label = str.lower(label)
     print(label)
-    session = sessionmaker()
-    session.configure(bind=engine)
-    session = session()
+    session = db_session()
 
     query = session.query(
         Issue.IssueId.label("IssueId"),
@@ -50,9 +46,7 @@ def getIssuesByLabelQuery(label: str):
 
 
 def getIssuesByIdQuery(issueId):
-    session = sessionmaker()
-    session.configure(bind=engine)
-    session = session()
+    session = db_session()
 
     query = session.query(
         Issue.IssueId.label("IssueId"),
@@ -91,9 +85,7 @@ def getIssuesByIdQuery(issueId):
 
 
 def getLabelsQuery():
-    session = sessionmaker()
-    session.configure(bind=engine)
-    session = session()
+    session = db_session()
     query = session.query(Label).all()
     return jsonify([
         {
@@ -103,9 +95,7 @@ def getLabelsQuery():
 
 
 def getStatesQuery():
-    session = sessionmaker()
-    session.configure(bind=engine)
-    session = session()
+    session = db_session()
     query = session.query(State).all()
     return jsonify([
         {
@@ -115,9 +105,7 @@ def getStatesQuery():
 
 
 def getActionsQuery():
-    session = sessionmaker()
-    session.configure(bind=engine)
-    session = session()
+    session = db_session()
     query = session.query(Action).all()
     return jsonify([
         {
@@ -127,9 +115,7 @@ def getActionsQuery():
 
 
 def getUsersQuery():
-    session = sessionmaker()
-    session.configure(bind=engine)
-    session = session()
+    session = db_session()
     query = session.query(User).all()
     return jsonify([
         {
@@ -140,9 +126,7 @@ def getUsersQuery():
 
 
 def getIssuesQuery():
-    session = sessionmaker()
-    session.configure(bind=engine)
-    session = session()
+    session = db_session()
     query = session.query(Issue).all()
     return jsonify([
         {

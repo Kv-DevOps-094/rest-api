@@ -1,10 +1,13 @@
 import json
 import os
+from types import SimpleNamespace
 
 import pika
 import sys
 
 from pika.exceptions import IncompatibleProtocolError
+
+from commands import parseJson, addUser, addIssueActionLabelState, addIssueActionState
 
 RABBIT_HOST = '15.237.25.152'
 RABBIT_PORT = '5672'
@@ -23,11 +26,14 @@ def main():
     parameters.credentials = credentials
 
     def callback(ch, method, properties, body):
-        newIssues = json.load(body.decode())
-        print(newIssues)
-        print(f"Count Issues: {len(newIssues)}")
-        for item in newIssues:
-            print(f"id: {item['issue.is']}")
+
+        addUser(body.decode())
+        # Add data from new issue
+        # addIssueActionLabelState(body)
+        #
+        # addUser(body)
+        # # Add changed status for issue
+        addIssueActionState(body.decode())
 
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()

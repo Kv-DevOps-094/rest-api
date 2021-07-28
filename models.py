@@ -30,11 +30,21 @@ class IssueAction(Base):
     ModifiedDate = Column(DateTime)
     Action = relationship("Action")
 
-    def __repr__(self):
-        return f"IssueId: {self.IssueId}, " \
-               f"ActionId: {self.ActionId}, " \
-               f"UserId: {self.UserId}, " \
-               f"ModifiedDate: {self.ModifiedDate}"
+    def __init__(self, IssueId, ActionId, UserId, ModifiedDate):
+        self.IssueId = IssueId
+        self.ActionId = ActionId
+        self.UserId = UserId
+        self.ModifiedDate = ModifiedDate
+
+    def __init__(self, UserId, ModifiedDate):
+        self.UserId = UserId
+        self.ModifiedDate = ModifiedDate
+
+    # def __repr__(self):
+    #     return f"IssueId: {self.IssueId}, " \
+    #            f"ActionId: {self.ActionId}, " \
+    #            f"UserId: {self.UserId}, " \
+    #            f"ModifiedDate: {self.ModifiedDate}"
 
 
 class Issue(Base):
@@ -47,6 +57,13 @@ class Issue(Base):
     Actions = relationship("IssueAction")
     States = relationship("IssueState")
     Labels = relationship("IssueLabel")
+
+    def __init__(self, IssueId, HtmlUrl, Number, Title, Body):
+        self.IssueId = IssueId
+        self.HtmlUrl = HtmlUrl
+        self.Number = Number
+        self.Title = Title
+        self.Body = Body
 
     def __repr__(self):
         return f"IssueId: {self.IssueId}, " \
@@ -99,6 +116,10 @@ class IssueLabel(Base):
     LabelId = Column(ForeignKey('Labels.LabelId'))
     Label = relationship("Label")
 
+    # def __init__(self, IssueId, LabelId):
+    #     self.IssueId = IssueId
+    #     self.LabelId = LabelId
+
     def __repr__(self):
         return f"IssueId: {self.IssueId}, LabelId: {self.LabelId}"
 
@@ -110,6 +131,14 @@ class IssueState(Base):
     StateId = Column(ForeignKey('States.StateId'))
     ModifiedDate = Column(DateTime)
     State = relationship("State")
+
+    def __init__(self, ModifiedDate):
+        self.ModifiedDate = ModifiedDate
+
+    # def __init__(self, IssueId, StateId, ModifiedDate):
+    #     self.IssueId = IssueId
+    #     self.StateId = StateId
+    #     self.ModifiedDate = ModifiedDate
 
     def __repr__(self):
         return f"IssueId: {self.IssueId}, StateId: {self.StateId}, ModifiedDate: {self.ModifiedDate}"
