@@ -1,4 +1,5 @@
 import json
+from time import sleep
 from types import SimpleNamespace
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import sessionmaker
@@ -186,6 +187,7 @@ def addIssueActionLabelState(dataJson):
     try:
         issue = query.one()
     except NoResultFound:
+
         issueAction = IssueAction(UserId=data.issue.user.login,
                                   ModifiedDate=data.issue.data)
         issueAction.Action = addAction(dataJson)
@@ -195,16 +197,19 @@ def addIssueActionLabelState(dataJson):
         issueState.State = addState(dataJson)
         issue.States.append(issueState)
 
-        issueLabel = IssueLabel()
         labels = addLabel(dataJson)
+
         for label in labels:
-            issueLabel.Label = label
-            issue.Labels.append(issueLabel)
-            session.add(issue)
+            issueLabel = IssueLabel()
+            issueLabel.IssueId = issue.IssueId
+            issueLabel.LabelId = label.LabelId
+            session.add(issueLabel)
+            # session.commit()
+            # issueLabel.Label = label
+            # issue.Labels.append(issueLabel)
         session.add(issue)
     finally:
         session.commit()
-
     return issue
 
 
@@ -238,6 +243,6 @@ addUser(opened)
 # Add data from new issue
 addIssueActionLabelState(opened)
 
-addUser(other)
-# Add changed status for issue
-addIssueActionState(other)
+# addUser(other)
+# # Add changed status for issue
+# addIssueActionState(other)

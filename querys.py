@@ -1,4 +1,5 @@
 from flask import jsonify
+from sqlalchemy import func
 from sqlalchemy.orm import sessionmaker
 
 from db import engine
@@ -6,6 +7,8 @@ from models import *
 
 
 def getIssuesByLabelQuery(label: str):
+    label = str.lower(label)
+    print(label)
     session = sessionmaker()
     session.configure(bind=engine)
     session = session()
@@ -28,7 +31,7 @@ def getIssuesByLabelQuery(label: str):
         join(User). \
         join(IssueState). \
         join(State). \
-        filter(Label.Title.contains(label)). \
+        filter(func.lower(Label.Title).contains(label)). \
         order_by(Issue.IssueId, IssueAction.ModifiedDate). \
         all()
 

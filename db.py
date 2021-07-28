@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy_utils import database_exists, create_database
+from sqlalchemy_utils import database_exists, create_database, drop_database
 
 from models import *
 
@@ -12,6 +12,7 @@ PORT = "5432"
 db_url = f'postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}'
 
 # Create db
+# drop_database(db_url)
 if not database_exists(db_url):
     create_database(db_url)
 
