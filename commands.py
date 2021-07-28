@@ -204,9 +204,6 @@ def addIssueActionLabelState(dataJson):
             issueLabel.IssueId = issue.IssueId
             issueLabel.LabelId = label.LabelId
             session.add(issueLabel)
-            # session.commit()
-            # issueLabel.Label = label
-            # issue.Labels.append(issueLabel)
         session.add(issue)
     finally:
         session.commit()
@@ -239,9 +236,9 @@ def addIssueActionState(dataJson):
     return issue
 
 
-addUser(opened)
-# Add data from new issue
-addIssueActionLabelState(opened)
+# addUser(opened)
+# # Add data from new issue
+# addIssueActionLabelState(opened)
 
 # addUser(other)
 # # Add changed status for issue
