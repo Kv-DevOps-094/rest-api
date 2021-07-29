@@ -12,8 +12,10 @@ PORT = "5432"
 
 db_url = f'postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}'
 
-# Create db
+# Drop db
 # drop_database(db_url)
+
+# Create db
 if not database_exists(db_url):
     create_database(db_url)
 
@@ -21,5 +23,6 @@ if not database_exists(db_url):
 engine = create_engine(db_url)
 Base.metadata.create_all(bind=engine)
 
-db_session = sessionmaker(bind=engine)
+dbSession = sessionmaker(bind=engine)
+session = dbSession()
 
