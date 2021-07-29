@@ -1,6 +1,9 @@
+import sys
+
 from flask import Flask
 from db import db_url
 from querys import *
+from receive import main
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url

@@ -9,7 +9,7 @@ opened = '''{
     "action": "opened",
     "issue": {
         "html_url": "https://github.com/Mary1509/Practice3/issues/8",
-        "id": 947957902,
+        "id": 947064985,
         "number": 8,
         "state": "open",
         "title": "oop",
@@ -227,7 +227,7 @@ def isIssueExist(issueId):
 
 
 def addIssueActionState(dataJson):
-    addUser(other)
+    addUser(dataJson)
     data = parseJson(dataJson)
 
     if isIssueExist(data.issue.id):

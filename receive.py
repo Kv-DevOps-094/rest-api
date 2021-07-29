@@ -40,12 +40,6 @@ def main():
             else:
                 print(f"{data.issue.id} not found")
 
-
-
-
-
-
-
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
     channel.queue_declare(queue=RABBIT_QUEUE)
