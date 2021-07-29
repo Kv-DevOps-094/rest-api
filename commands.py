@@ -56,15 +56,24 @@ other = '''{
 }'''
 
 
-def parseJson(dataJson):
+def parseJson(dataJson: str) -> SimpleNamespace:
     """
-    :param dataJson:
-    :return:
+    The function converts a string to a dictionary.
+
+    :param dataJson: str
+    :return: SimpleNamespace
     """
     return json.loads(dataJson, object_hook=lambda d: SimpleNamespace(**d))
 
 
-def addUser(dataJson):
+def addUser(dataJson: str) -> User:
+    """
+    The function checks for the existence of a User
+    record in the db, if there is none, the record is added.
+
+    :param dataJson: str
+    :return: User from models
+    """
     data = parseJson(dataJson)
     user = User(UserId=data.issue.user.login,
                 HtmlUrl=data.issue.user.html_url,
@@ -84,7 +93,14 @@ def addUser(dataJson):
         return user
 
 
-def addAction(dataJson):
+def addAction(dataJson: str) -> Action:
+    """
+    The function checks for the existence of a Action
+    record in the db, if there is none, the record is added.
+
+    :param dataJson: str
+    :return: Action from models
+    """
     data = parseJson(dataJson)
     action = Action(Title=data.action)
     sessionAddAction = dbSession()
@@ -102,7 +118,14 @@ def addAction(dataJson):
         return action
 
 
-def addState(dataJson):
+def addState(dataJson: str) -> State:
+    """
+    The function checks for the existence of a State
+    record in the db, if there is none, the record is added.
+
+    :param dataJson: str
+    :return: State from models
+    """
     data = parseJson(dataJson)
 
     state = State(Title=data.issue.state)
@@ -123,7 +146,14 @@ def addState(dataJson):
         return state
 
 
-def addLabel(dataJson):
+def addLabel(dataJson: str):
+    """
+    The function checks for the existence of a Label
+    records in the db, if there is none, the records is added.
+
+    :param dataJson: str
+    :return: list Label from models
+    """
     sessionAddLabel = dbSession()
     sessionAddLabel.expire_on_commit = False
 
@@ -138,17 +168,24 @@ def addLabel(dataJson):
         try:
             label = query.one()
             ls.append(label)
-            print(f"Function addLabel() - label exist")
+            print(f"{label} - exist")
         except NoResultFound:
             sessionAddLabel.add(label)
             sessionAddLabel.commit()
             ls.append(label)
-            print(f"{label}")
+            print(f"{label} - added")
     sessionAddLabel.commit()
     return ls
 
 
-def addIssue(dataJson):
+def addIssue(dataJson: str) -> Issue:
+    """
+    The function checks for the existence of a Issue
+    records in the db, if there is none, the records is added.
+
+    :param dataJson: str
+    :return: Issue from models
+    """
     data = parseJson(dataJson)
     issue = Issue(IssueId=data.issue.id,
                   HtmlUrl=data.issue.html_url,
@@ -170,7 +207,16 @@ def addIssue(dataJson):
     return issue
 
 
-def addIssueActionLabelState(dataJson):
+def addIssueActionLabelStateCommands(dataJson: str):
+    """
+    The function checks for the existence of a User, Issue,
+    Action, State, Label records in the db, if there is none,
+    the records is added. And adds records to the IssueAction,
+    IssueState, IssueLabel tables.
+
+    :param dataJson: str
+    :return: None
+    """
     addUser(dataJson)
     data = parseJson(dataJson)
     issue = Issue(IssueId=data.issue.id,
@@ -210,7 +256,6 @@ def addIssueActionLabelState(dataJson):
     finally:
         sessionAddIssueActionLabelState.commit()
         print(f"{issue}")
-    return issue
 
 
 def isIssueExist(issueId):
@@ -230,7 +275,17 @@ def isIssueExist(issueId):
         return isExist
 
 
-def addIssueActionState(dataJson):
+def addIssueActionState(dataJson: str):
+    """
+    The function checks for the existence of a User, Issue,
+    Action, State records in the db, if there is none,
+    the records is added. And adds records to the IssueAction,
+    IssueState tables.
+
+    :param dataJson: str
+    :return: None
+    """
+
     addUser(dataJson)
     data = parseJson(dataJson)
 
@@ -240,7 +295,6 @@ def addIssueActionState(dataJson):
         query = sessionAddIssueActionState \
             .query(Issue) \
             .filter(Issue.IssueId == data.issue.id)
-        issue = None
         try:
             issue = query.one()
             issueAction = IssueAction(UserId=data.issue.user.login,
@@ -256,10 +310,9 @@ def addIssueActionState(dataJson):
             print(ex)
         finally:
             sessionAddIssueActionState.commit()
-        return issue
     else:
         print(f"Issue {data.issue.id} not found")
 
 
-# addIssueActionLabelState(opened)
-# addIssueActionState(other)
+addIssueActionLabelStateCommands(opened)
+addIssueActionState(other)

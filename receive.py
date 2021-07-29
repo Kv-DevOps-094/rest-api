@@ -1,6 +1,6 @@
 import sys
 import pika
-from commands import parseJson, addIssueActionLabelState, addIssueActionState, isIssueExist
+from commands import parseJson, addIssueActionLabelStateCommands, addIssueActionState, isIssueExist
 from db import dbSession
 
 RABBIT_HOST = '15.237.25.152'
@@ -11,7 +11,7 @@ RABBIT_QUEUE = 'restapi'
 
 
 def main():
-    """Component integration with rabbitmq"""
+    """Component integration with RabbitMQ"""
     credentials = pika.PlainCredentials(username=RABBIT_LOGIN, password=RABBIT_PASSWORD)
     parameters = pika.ConnectionParameters()
     parameters.host = RABBIT_HOST
@@ -22,7 +22,7 @@ def main():
     def callback(ch, method, properties, body):
         data = parseJson(body.decode())
         if data.action == 'opened':
-            addIssueActionLabelState(body.decode())
+            addIssueActionLabelStateCommands(body.decode())
             print(f"{data.issue.id} is {data.action} added")
         else:
             if isIssueExist(data.issue.id):

@@ -40,12 +40,6 @@ class IssueAction(Base):
         self.UserId = UserId
         self.ModifiedDate = ModifiedDate
 
-    # def __repr__(self):
-    #     return f"IssueId: {self.IssueId}, " \
-    #            f"ActionId: {self.ActionId}, " \
-    #            f"UserId: {self.UserId}, " \
-    #            f"ModifiedDate: {self.ModifiedDate}"
-
 
 class Issue(Base):
     __tablename__ = 'Issues'
@@ -116,10 +110,6 @@ class IssueLabel(Base):
     LabelId = Column(ForeignKey('Labels.LabelId'))
     Label = relationship("Label")
 
-    # def __init__(self, IssueId, LabelId):
-    #     self.IssueId = IssueId
-    #     self.LabelId = LabelId
-
     def __repr__(self):
         return f"IssueId: {self.IssueId}, LabelId: {self.LabelId}"
 
@@ -134,11 +124,6 @@ class IssueState(Base):
 
     def __init__(self, ModifiedDate):
         self.ModifiedDate = ModifiedDate
-
-    # def __init__(self, IssueId, StateId, ModifiedDate):
-    #     self.IssueId = IssueId
-    #     self.StateId = StateId
-    #     self.ModifiedDate = ModifiedDate
 
     def __repr__(self):
         return f"IssueId: {self.IssueId}, StateId: {self.StateId}, ModifiedDate: {self.ModifiedDate}"

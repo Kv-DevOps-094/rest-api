@@ -6,9 +6,12 @@ from models import *
 
 def getIssuesByLabelQuery(label: str):
     """
+    The function of Select Issues and filtering by Label from the db.
+
     :param label: for filtering issues
-    :return: list of issues from db
+    :return: list of Issue from db
     """
+
     label = str.lower(label)
     print(label)
     session = dbSession()
@@ -51,8 +54,9 @@ def getIssuesByLabelQuery(label: str):
 
 def getIssuesByIdQuery(issueId):
     """
-    :param issueId: for filtering issues
-    :return: list of issues from db
+    The function of Select Issues and filtering by IssueId from the db.
+
+    :return: list of Issue from db
     """
     session = dbSession()
 
@@ -94,7 +98,9 @@ def getIssuesByIdQuery(issueId):
 
 def getLabelsQuery():
     """
-    :return: list of labels from db
+    The function of Select Labels from the db.
+
+    :return: list of Label from db
     """
     session = dbSession()
     query = session.query(Label).all()
@@ -107,7 +113,9 @@ def getLabelsQuery():
 
 def getStatesQuery():
     """
-    :return: list of states from db
+    The function of Select States from the db.
+
+    :return: list of State from db
     """
     session = dbSession()
     query = session.query(State).all()
@@ -120,7 +128,9 @@ def getStatesQuery():
 
 def getActionsQuery():
     """
-    :return: list of actions from db
+    The function of Select Actions from the db.
+
+    :return: list of Action from db
     """
     session = dbSession()
     query = session.query(Action).all()
@@ -132,6 +142,12 @@ def getActionsQuery():
 
 
 def getUsersQuery():
+    """
+    The function of Select Users from the db.
+
+    :return: list of User from db
+    """
+
     session = dbSession()
     query = session.query(User).all()
     return jsonify([
@@ -144,7 +160,9 @@ def getUsersQuery():
 
 def getIssuesQuery():
     """
-    :return: list of issues from db
+    The function of Select Issues from the db.
+
+    :return: list of Issue from db
     """
     session = dbSession()
     query = session.query(Issue).all()
