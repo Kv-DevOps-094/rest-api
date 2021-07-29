@@ -7,7 +7,8 @@ import sys
 
 from pika.exceptions import IncompatibleProtocolError
 
-from commands import parseJson, addUser, addIssueActionLabelState, addIssueActionState
+from commands import parseJson, addUser, addIssueActionLabelState, addIssueActionState, isIssueExist
+from db import dbSession
 
 RABBIT_HOST = '15.237.25.152'
 RABBIT_PORT = '5672'
@@ -26,14 +27,24 @@ def main():
     parameters.credentials = credentials
 
     def callback(ch, method, properties, body):
+        data = parseJson(body.decode())
+        if data.action == 'opened':
+            addIssueActionLabelState(body.decode())
+            print(f"{data.issue.id} is {data.action} added")
+        else:
+            if isIssueExist(data.issue.id):
+                sessionAddIssueActionState = dbSession()
+                sessionAddIssueActionState.expire_on_commit = False
+                addIssueActionState(body.decode())
+                print(f"{data.issue.id} is {data.action} updated")
+            else:
+                print(f"{data.issue.id} not found")
 
-        addUser(body.decode())
-        # Add data from new issue
-        # addIssueActionLabelState(body)
-        #
-        # addUser(body)
-        # # Add changed status for issue
-        addIssueActionState(body.decode())
+
+
+
+
+
 
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()

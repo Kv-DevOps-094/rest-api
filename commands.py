@@ -257,11 +257,5 @@ def addIssueActionState(dataJson):
         print(f"Issue {data.issue.id} not found")
 
 
-# addLabel(opened)
-# addUser(opened)
-# Add data from new issue
 addIssueActionLabelState(opened)
-
-# addUser(other)
-# Add changed status for issue
 addIssueActionState(other)
