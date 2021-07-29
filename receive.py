@@ -1,22 +1,23 @@
 import sys
 import pika
 from commands import parseJson, addIssueActionLabelStateCommands, addIssueActionState, isIssueExist
+from config import *
 from db import dbSession
 
-RABBIT_HOST = '15.237.25.152'
-RABBIT_PORT = '5672'
-RABBIT_LOGIN = 'devops'
-RABBIT_PASSWORD = 'softserve'
-RABBIT_QUEUE = 'restapi'
+# RABBIT_HOST = '15.237.25.152'
+# RABBIT_PORT = '5672'
+# RABBIT_LOGIN = 'devops'
+# RABBIT_PASSWORD = 'softserve'
+# RABBIT_QUEUE = 'restapi'
 
 
 def main():
     """Component integration with RabbitMQ"""
-    credentials = pika.PlainCredentials(username=RABBIT_LOGIN, password=RABBIT_PASSWORD)
+    credentials = pika.PlainCredentials(username=RABBIT_USER, password=RABBIT_PW)
     parameters = pika.ConnectionParameters()
     parameters.host = RABBIT_HOST
     parameters.port = RABBIT_PORT
-    parameters.virtual_host
+    # parameters.virtual_host
     parameters.credentials = credentials
 
     def callback(ch, method, properties, body):

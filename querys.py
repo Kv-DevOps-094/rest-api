@@ -1,5 +1,6 @@
 from flask import jsonify
-from sqlalchemy import func, select
+from sqlalchemy import func
+
 from db import dbSession
 from models import *
 

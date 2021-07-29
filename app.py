@@ -1,11 +1,9 @@
 from flask import Flask
-
-from db import db_url
+from config import Config
 from querys import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_object(Config)
 
 
 @app.route("/issues/by-label/<label>", methods=['GET'])
