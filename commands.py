@@ -257,5 +257,5 @@ def addIssueActionState(dataJson):
         print(f"Issue {data.issue.id} not found")
 
 
-addIssueActionLabelState(opened)
-addIssueActionState(other)
+# addIssueActionLabelState(opened)
+# addIssueActionState(other)
