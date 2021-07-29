@@ -1,13 +1,6 @@
-import json
-import os
-from types import SimpleNamespace
-
-import pika
 import sys
-
-from pika.exceptions import IncompatibleProtocolError
-
-from commands import parseJson, addUser, addIssueActionLabelState, addIssueActionState, isIssueExist
+import pika
+from commands import parseJson, addIssueActionLabelState, addIssueActionState, isIssueExist
 from db import dbSession
 
 RABBIT_HOST = '15.237.25.152'
@@ -18,8 +11,8 @@ RABBIT_QUEUE = 'restapi'
 
 
 def main():
+    """Component integration with rabbitmq"""
     credentials = pika.PlainCredentials(username=RABBIT_LOGIN, password=RABBIT_PASSWORD)
-
     parameters = pika.ConnectionParameters()
     parameters.host = RABBIT_HOST
     parameters.port = RABBIT_PORT

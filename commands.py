@@ -57,6 +57,10 @@ other = '''{
 
 
 def parseJson(dataJson):
+    """
+    :param dataJson:
+    :return:
+    """
     return json.loads(dataJson, object_hook=lambda d: SimpleNamespace(**d))
 
 

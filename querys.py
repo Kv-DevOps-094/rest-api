@@ -5,6 +5,10 @@ from models import *
 
 
 def getIssuesByLabelQuery(label: str):
+    """
+    :param label: for filtering issues
+    :return: list of issues from db
+    """
     label = str.lower(label)
     print(label)
     session = dbSession()
@@ -46,6 +50,10 @@ def getIssuesByLabelQuery(label: str):
 
 
 def getIssuesByIdQuery(issueId):
+    """
+    :param issueId: for filtering issues
+    :return: list of issues from db
+    """
     session = dbSession()
 
     query = session.query(
@@ -85,6 +93,9 @@ def getIssuesByIdQuery(issueId):
 
 
 def getLabelsQuery():
+    """
+    :return: list of labels from db
+    """
     session = dbSession()
     query = session.query(Label).all()
     return jsonify([
@@ -95,6 +106,9 @@ def getLabelsQuery():
 
 
 def getStatesQuery():
+    """
+    :return: list of states from db
+    """
     session = dbSession()
     query = session.query(State).all()
     return jsonify([
@@ -105,6 +119,9 @@ def getStatesQuery():
 
 
 def getActionsQuery():
+    """
+    :return: list of actions from db
+    """
     session = dbSession()
     query = session.query(Action).all()
     return jsonify([
@@ -126,6 +143,9 @@ def getUsersQuery():
 
 
 def getIssuesQuery():
+    """
+    :return: list of issues from db
+    """
     session = dbSession()
     query = session.query(Issue).all()
     return jsonify([
