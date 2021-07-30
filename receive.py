@@ -4,12 +4,6 @@ from commands import parseJson, addIssueActionLabelStateCommands, addIssueAction
 from config import *
 from db import dbSession
 
-# RABBIT_HOST = '15.237.25.152'
-# RABBIT_PORT = '5672'
-# RABBIT_LOGIN = 'devops'
-# RABBIT_PASSWORD = 'softserve'
-# RABBIT_QUEUE = 'restapi'
-
 
 def main():
     """RabbitMQ integration Component"""
