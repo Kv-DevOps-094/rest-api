@@ -12,7 +12,7 @@ from db import dbSession
 
 
 def main():
-    """Component integration with RabbitMQ"""
+    """RabbitMQ integration Component"""
     credentials = pika.PlainCredentials(username=RABBIT_USER, password=RABBIT_PW)
     parameters = pika.ConnectionParameters()
     parameters.host = RABBIT_HOST
