@@ -6,7 +6,7 @@ This is a REST API application that returns an issues filtered by label
 
 ### Create network
 
-docker network create --driver bridge --subnet 10.0.1.0/24 --ip-range 10.0.1.0/24 bridge_issue
+sudo docker network create --driver bridge --subnet 10.0.1.0/24 --ip-range 10.0.1.0/24 bridge_issue
 
 ### Create configure and run PostgreSQL container 
 
