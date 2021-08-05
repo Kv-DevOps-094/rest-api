@@ -29,7 +29,7 @@ This is a REST API application that returns an issues filtered by label
     sudo git clone https://github.com/Kv-DevOps-094/rest-api.git
     cd rest-api
 
-### Create configure and run PostgreSQL container 
+## Create, configure and run PostgreSQL container
 
     sudo docker run -h postgres --rm --name postgres --net bridge_issue -e POSTGRES_PASSWORD=Init1234 -e POSTGRES_HOST=postgres -e POSTGRES_USER=issueuser -e POSTGRES_PW=Init1234 -e POSTGRES_DB=issuedb -e USERMAP_UID=999 -e USERMAP_GID=999 -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data docker.io/library/postgres:latest
 
