@@ -1,0 +1,30 @@
+[Unit]
+Description=RestAPI Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+RestartSec=10
+ExecStartPre=-/usr/bin/docker rm restapi -f
+ExecStart=/usr/bin/docker run \
+    -h restapi \
+    --name restapi \
+    --net bridge_issue \
+    -d -p 5000:5000 \
+    -e github='https://github.com/Kv-DevOps-094/rest-api.git' \
+    -e POSTGRES_HOST=postgres \
+    -e POSTGRES_PORT=5432 \
+    -e POSTGRES_USER=issueuser \
+    -e POSTGRES_PW=Init1234 \
+    -e POSTGRES_DB=issuedb \
+    restapi
+
+[Install]
+WantedBy=default.target
+
+#/etc/systemd/system/docker.restapi.service
+#sudo systemctl enable docker.restapi
+#sudo service docker.restapi start
+#sudo service docker.restapi stop
