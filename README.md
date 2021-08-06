@@ -37,12 +37,15 @@ This is a REST API application that returns an issues filtered by label
 
 ### Create RestAPI container
 
-    sudo docker build -f /home/projectIssues/restapi -t resrapi .
-    sudo docker build -f /home/projectIssues/rabbit-to-bd -t rabbit_to_postgres .
-
+    sudo docker build --tag="resrapi" /home/projectIssues/restapi/
+    sudo docker build --tag="rabbit_to_postgres" /home/projectIssues/rabbit-to-bd/
 ### Start services
-    
+    systemctl daemon-reload
     sudo service docker.postgres start
     sudo service docker.restapi start
-    sudo service docker.rabbit_to_db.service start
+    sudo service docker.rabbit_to_db start
+####
+    sudo service docker.postgres stop
+    sudo service docker.restapi stop
+    sudo service docker.rabbit_to_db stop
 
