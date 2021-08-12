@@ -2,6 +2,7 @@ from sqlalchemy import Column, String, Integer, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
+
 Base = declarative_base()
 
 
@@ -23,11 +24,10 @@ class User(Base):
 
 class IssueAction(Base):
     __tablename__ = 'IssueActions'
-    IssueActionId = Column(Integer, primary_key=True)
-    IssueId = Column(ForeignKey('Issues.IssueId'))
-    ActionId = Column(ForeignKey('Actions.ActionId'))
+    IssueId = Column(ForeignKey('Issues.IssueId'), primary_key=True)
+    ActionId = Column(ForeignKey('Actions.ActionId'), primary_key=True)
     UserId = Column(String, ForeignKey('Users.UserId'))
-    ModifiedDate = Column(DateTime)
+    ModifiedDate = Column(DateTime, primary_key=True)
     Action = relationship("Action")
 
     def __init__(self, IssueId, ActionId, UserId, ModifiedDate):
@@ -36,9 +36,11 @@ class IssueAction(Base):
         self.UserId = UserId
         self.ModifiedDate = ModifiedDate
 
-    def __init__(self, UserId, ModifiedDate):
-        self.UserId = UserId
-        self.ModifiedDate = ModifiedDate
+    def __repr__(self):
+        return f"IssueId: {self.IssueId}, " \
+               f"ActionId: {self.ActionId}, " \
+               f"UserId: {self.UserId}, " \
+               f"ModifiedDate: {self.ModifiedDate}"
 
 
 class Issue(Base):
@@ -105,9 +107,8 @@ class State(Base):
 
 class IssueLabel(Base):
     __tablename__ = 'IssueLabels'
-    IssueLabelId = Column(Integer, primary_key=True)
-    IssueId = Column(ForeignKey('Issues.IssueId'))
-    LabelId = Column(ForeignKey('Labels.LabelId'))
+    IssueId = Column(ForeignKey('Issues.IssueId'), primary_key=True)
+    LabelId = Column(ForeignKey('Labels.LabelId'), primary_key=True)
     Label = relationship("Label")
 
     def __repr__(self):
@@ -116,10 +117,9 @@ class IssueLabel(Base):
 
 class IssueState(Base):
     __tablename__ = 'IssueStates'
-    IssueStateId = Column(Integer, primary_key=True)
-    IssueId = Column(ForeignKey('Issues.IssueId'))
-    StateId = Column(ForeignKey('States.StateId'))
-    ModifiedDate = Column(DateTime)
+    IssueId = Column(ForeignKey('Issues.IssueId'), primary_key=True)
+    StateId = Column(ForeignKey('States.StateId'), primary_key=True)
+    ModifiedDate = Column(DateTime, primary_key=True)
     State = relationship("State")
 
     def __init__(self, ModifiedDate):

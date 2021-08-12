@@ -1,8 +1,9 @@
 from flask import jsonify
 from sqlalchemy import func
-
-from db import dbSession
+from db import session_factory
 from models import *
+
+session = session_factory()
 
 
 def getIssuesByLabelQuery(label: str):
@@ -14,8 +15,6 @@ def getIssuesByLabelQuery(label: str):
     """
 
     label = str.lower(label)
-    print(label)
-    session = dbSession()
 
     query = session.query(
         Issue.IssueId.label("IssueId"),
@@ -59,8 +58,6 @@ def getIssuesByIdQuery(issueId):
 
     :return: list of Issue from db
     """
-    session = dbSession()
-
     query = session.query(
         Issue.IssueId.label("IssueId"),
         State.Title.label("State"),
@@ -103,7 +100,7 @@ def getLabelsQuery():
 
     :return: list of Label from db
     """
-    session = dbSession()
+
     query = session.query(Label).all()
     return jsonify([
         {
@@ -118,7 +115,6 @@ def getStatesQuery():
 
     :return: list of State from db
     """
-    session = dbSession()
     query = session.query(State).all()
     return jsonify([
         {
@@ -133,7 +129,6 @@ def getActionsQuery():
 
     :return: list of Action from db
     """
-    session = dbSession()
     query = session.query(Action).all()
     return jsonify([
         {
@@ -149,7 +144,6 @@ def getUsersQuery():
     :return: list of User from db
     """
 
-    session = dbSession()
     query = session.query(User).all()
     return jsonify([
         {
@@ -165,7 +159,6 @@ def getIssuesQuery():
 
     :return: list of Issue from db
     """
-    session = dbSession()
     query = session.query(Issue).all()
     return jsonify([
         {
