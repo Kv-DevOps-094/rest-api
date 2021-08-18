@@ -1,4 +1,4 @@
-# RestAPI
+# REST API
 
 This is a REST API application that returns an issues filtered by label
 
