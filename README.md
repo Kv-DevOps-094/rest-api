@@ -22,7 +22,7 @@ This is a REST API application that returns an issues filtered by label
     mkdir /home/projectIssues
     cd /home/projectIssues
 
-### Clone RestAPI project
+### Clone REST API project
     git init
     sudo git clone https://github.com/Kv-DevOps-094/rest-api.git /home/projectIssues/restapi
     sudo git clone -b develop https://github.com/Kv-DevOps-094/rabbit-to-bd.git /home/projectIssues/rabbit-to-bd
